@@ -27,7 +27,7 @@ class App extends React.Component {
 
 addValue = value => {
   value=== "." && this.state.input === "" ? this.setState({input: 0 + value}) : this.setState({input: this.state.input + value})
-  if (this.handleEqual === true)  console.log(1);
+  //if (this.handleEqual === true)  console.log(1);
 }
 
 handleEqual = () =>{
