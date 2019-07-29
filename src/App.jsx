@@ -6,6 +6,12 @@ import Cbutt from "./components/Cbutt";
 import PlMin from "./components/PlMin";
 import Perc from "./components/Perc";
 
+const operators = {
+  '+': (a, b) => a + b,
+  '-': (a, b) => a - b,
+  '*': (a, b) => a * b,
+  '/': (a, b) => a / b
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -13,35 +19,37 @@ class App extends React.Component {
 
     this.state = {
       input:"",
-      oper: "",
+      operator: "",
       prewNum:"",
       curNum:""
     };
   }
 
-addVal = val => {
-  this.setState({input: this.state.input + val});
-  if (val=== ".") this.setState({input: 0 + val})
+addValue = value => {
+  value=== "." && this.state.input === "" ? this.setState({input: 0 + value}) : this.setState({input: this.state.input + value})
+  if (this.handleEqual === true)  console.log(1);
 }
 
 handleEqual = () =>{
-  this.state.curNum = this.state.input;
-  this.setState({ input: eval(parseFloat(this.state.prewNum) + this.state.oper + parseFloat(this.state.curNum)) });
+  let a = parseFloat(this.state.prewNum);
+  let b = parseFloat(this.state.curNum);
+  this.setState({curNum : this.state.input});
+  this.setState({ input:  operators[this.state.operator](a, b)});
 }
 
 plusMinus = () => {
-  this.setState({ input: this.state.input *(-1)});
+  this.setState({ input: -this.state.input });
 }
 
 percents = () => {
   this.setState({ input: this.state.input /100});
 }
 
-add = (val) =>{
-  this.state.prewNum = this.state.input;
+handleOperator = (value) =>{
+  this.setState({prewNum: this.state.input});
   this.setState({input: ""});
 
-  val === "x" ? this.state.oper = "*": this.state.oper = val;
+  value === "x" ? this.setState({operator: "*"}): this.setState({operator: value});
 }
   render(){
       return (
@@ -52,29 +60,29 @@ add = (val) =>{
                 <Cbutt handleClear = {() => this.setState({input:""})}>C</Cbutt>
                 <PlMin handleClick = {this.plusMinus}>+-</PlMin>
                 <Perc handleClick = {this.percents}>%</Perc>
-                <Button handleClick = {this.add}>/</Button>
+                <Button handleClick = {this.handleOperator}>/</Button>
               </div>
               <div className="row">
-                <Button handleClick = {this.addVal}>7</Button>
-                <Button handleClick = {this.addVal}>8</Button>
-                <Button handleClick = {this.addVal}>9</Button>
-                <Button handleClick = {this.add}>x</Button>
+                <Button handleClick = {this.addValue}>7</Button>
+                <Button handleClick = {this.addValue}>8</Button>
+                <Button handleClick = {this.addValue}>9</Button>
+                <Button handleClick = {this.handleOperator} operator ="*">x</Button>
               </div>
               <div className="row">
-                <Button handleClick = {this.addVal}>4</Button>
-                <Button handleClick = {this.addVal}>5</Button>
-                <Button handleClick = {this.addVal}>6</Button>
-                <Button handleClick = {this.add}>-</Button>
+                <Button handleClick = {this.addValue}>4</Button>
+                <Button handleClick = {this.addValue}>5</Button>
+                <Button handleClick = {this.addValue}>6</Button>
+                <Button handleClick = {this.handleOperator}>-</Button>
               </div>
               <div className="row">
-                <Button handleClick = {this.addVal}>1</Button>
-                <Button handleClick = {this.addVal}>2</Button>
-                <Button handleClick = {this.addVal}>3</Button>
-                <Button handleClick = {this.add}>+</Button>
+                <Button handleClick = {this.addValue}>1</Button>
+                <Button handleClick = {this.addValue}>2</Button>
+                <Button handleClick = {this.addValue}>3</Button>
+                <Button handleClick = {this.handleOperator}>+</Button>
               </div>
               <div className="row">
-                <Button handleClick = {this.addVal}>0</Button>
-                <Button handleClick = {this.addVal}>.</Button>
+                <Button handleClick = {this.addValue}>0</Button>
+                <Button handleClick = {this.addValue}>.</Button>
                 <Button handleClick = {this.handleEqual}>=</Button>
               </div>
           </div>
