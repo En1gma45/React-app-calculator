@@ -18,6 +18,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      done:"false",
       input:"",
       operator: "",
       prewNum:"",
@@ -25,16 +26,20 @@ class App extends React.Component {
     };
   }
 
-addValue = value => {
+addDigit = value => {
   value=== "." && this.state.input === "" ? this.setState({input: 0 + value}) : this.setState({input: this.state.input + value})
-  //if (this.handleEqual === true)  console.log(1);
+  if (this.state.done === "true")
+  {
+    this.setState({input: ""+value, done: "false"});
+  }
 }
 
 handleEqual = () =>{
   let a = parseFloat(this.state.prewNum);
-  let b = parseFloat(this.state.curNum);
-  this.setState({curNum : this.state.input});
+  let b = parseFloat(this.state.input);
+  //this.setState({curNum : this.state.input});
   this.setState({ input:  operators[this.state.operator](a, b)});
+  this.setState({done: "true"});
 }
 
 plusMinus = () => {
@@ -63,26 +68,26 @@ handleOperator = (value) =>{
                 <Button handleClick = {this.handleOperator}>/</Button>
               </div>
               <div className="row">
-                <Button handleClick = {this.addValue}>7</Button>
-                <Button handleClick = {this.addValue}>8</Button>
-                <Button handleClick = {this.addValue}>9</Button>
+                <Button handleClick = {this.addDigit}>7</Button>
+                <Button handleClick = {this.addDigit}>8</Button>
+                <Button handleClick = {this.addDigit}>9</Button>
                 <Button handleClick = {this.handleOperator} operator ="*">x</Button>
               </div>
               <div className="row">
-                <Button handleClick = {this.addValue}>4</Button>
-                <Button handleClick = {this.addValue}>5</Button>
-                <Button handleClick = {this.addValue}>6</Button>
+                <Button handleClick = {this.addDigit}>4</Button>
+                <Button handleClick = {this.addDigit}>5</Button>
+                <Button handleClick = {this.addDigit}>6</Button>
                 <Button handleClick = {this.handleOperator}>-</Button>
               </div>
               <div className="row">
-                <Button handleClick = {this.addValue}>1</Button>
-                <Button handleClick = {this.addValue}>2</Button>
-                <Button handleClick = {this.addValue}>3</Button>
+                <Button handleClick = {this.addDigit}>1</Button>
+                <Button handleClick = {this.addDigit}>2</Button>
+                <Button handleClick = {this.addDigit}>3</Button>
                 <Button handleClick = {this.handleOperator}>+</Button>
               </div>
               <div className="row">
-                <Button handleClick = {this.addValue}>0</Button>
-                <Button handleClick = {this.addValue}>.</Button>
+                <Button handleClick = {this.addDigit}>0</Button>
+                <Button handleClick = {this.addDigit}>.</Button>
                 <Button handleClick = {this.handleEqual}>=</Button>
               </div>
           </div>
